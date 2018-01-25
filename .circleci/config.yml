@@ -40,6 +40,9 @@ jobs:
 
       # run tests!
       - run: gradle test
+      command: |
+                  sudo chmod +x gradlew
+                  ./gradlew androidDependencies
 
 
 
