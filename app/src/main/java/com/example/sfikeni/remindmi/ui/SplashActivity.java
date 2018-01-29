@@ -1,11 +1,10 @@
-package com.example.sfikeni.remindmi.activity;
+package com.example.sfikeni.remindmi.ui;
 
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.example.sfikeni.remindmi.MainActivity;
 import com.example.sfikeni.remindmi.R;
 
 public class SplashActivity extends AppCompatActivity {
