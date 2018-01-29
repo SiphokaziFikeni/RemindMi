@@ -19,4 +19,9 @@
     <string name="dialog_message">Are you sure you want to cancel reminder?</string>
     <string name="dialog_positive_text">Yes</string>
     <string name="dialog_negative_text">No</string>
+    <string name="main_settings_title">Main Settings</string>
+
+    <!--image view content descriptions-->
+    <string name="reminder_priority_description">Image view to show icon representing reminder priority</string>
+    <string name="reminder_status_description">Image view to show icon representing reminder status that is complete, still coming and cancelled</string>
 </resources>
