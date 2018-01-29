@@ -9,10 +9,12 @@
     <!--Set Reminder screen-->
     <string name="title">Title</string>
     <string name="description">Description</string>
-    <string name="set_reminder_date">Set Reminder</string>
+    <string name="set_reminder_date">Set Date</string>
     <string name="high_priority">High Priority</string>
     <string name="no_priority">Normal</string>
     <string name="low_priority">Low Priority</string>
+    <string name="button_save_text">Set Reminder</string>
+    <string name="set_reminder_title_action">Cancel Reminder</string>
 
     <!--Cancel Dialog-->
     <string name="dialog_title">Cancel</string>

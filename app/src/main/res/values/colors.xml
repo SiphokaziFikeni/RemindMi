@@ -4,6 +4,10 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <!--text colors-->
+    <color name="text_white">#ffffff</color>
+    <color name="text_black">#000000</color>
+
     <!--toolbar colors-->
-    <color name="colorToolbarText">#ffffff</color>
+    <color name="colorToolbarText">@color/text_white</color>
 </resources>
