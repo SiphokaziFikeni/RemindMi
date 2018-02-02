@@ -12,27 +12,25 @@ import android.widget.Toast;
 
 import com.example.sfikeni.remindmi.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import io.realm.Realm;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = findViewById(R.id.create_reminder_fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addNewReminder();
-            }
-        });
-
     }
 
-    private void addNewReminder(){
+    @OnClick(R.id.create_reminder_fab)
+    public void addNewReminder(){
         Intent intent = new Intent(this, SetReminderActivity.class);
         startActivity(intent);
     }
