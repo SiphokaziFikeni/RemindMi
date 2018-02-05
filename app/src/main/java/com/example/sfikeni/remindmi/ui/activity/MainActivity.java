@@ -1,21 +1,17 @@
-package com.example.sfikeni.remindmi.ui;
+package com.example.sfikeni.remindmi.ui.activity;
 
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.example.sfikeni.remindmi.R;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.Realm;
 
 public class MainActivity extends AppCompatActivity {
 
