@@ -10,11 +10,15 @@
     <string name="title">Title</string>
     <string name="description">Description</string>
     <string name="set_reminder_date">Set Date</string>
+    <string name="set_reminder_time">Set Time</string>
     <string name="high_priority">High Priority</string>
     <string name="no_priority">Normal</string>
     <string name="low_priority">Low Priority</string>
     <string name="button_save_text">Set Reminder</string>
+    <string name="button_select_date_text">Okay</string>
     <string name="set_reminder_title_action">Cancel Reminder</string>
+    <string name="reminder_date_text">From %s</string>
+    <string name="reminder_time_text">At %d:%d</string>
 
     <!--Cancel Dialog-->
     <string name="dialog_title">Cancel</string>
