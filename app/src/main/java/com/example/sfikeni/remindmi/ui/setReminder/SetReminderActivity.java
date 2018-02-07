@@ -1,4 +1,4 @@
-package com.example.sfikeni.remindmi.ui.activity;
+package com.example.sfikeni.remindmi.ui.setReminder;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -16,8 +16,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.sfikeni.remindmi.R;
-import com.example.sfikeni.remindmi.ui.fragment.DatePickerFragment;
-import com.example.sfikeni.remindmi.ui.fragment.TimePickerFragment;
+import com.example.sfikeni.remindmi.ui.reminderList.MainActivity;
 
 import java.text.DateFormat;
 import java.util.Calendar;

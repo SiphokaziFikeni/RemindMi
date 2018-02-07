@@ -2,10 +2,7 @@ package com.example.sfikeni.remindmi.database.entity;
 
 import android.support.annotation.Nullable;
 
-import com.example.sfikeni.remindmi.Reminder;
-
 import io.realm.RealmModel;
-import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
 import io.realm.annotations.Required;

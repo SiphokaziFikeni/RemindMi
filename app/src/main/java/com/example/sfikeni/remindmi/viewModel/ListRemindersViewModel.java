@@ -5,10 +5,9 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
-import com.example.sfikeni.remindmi.Reminder;
+import com.example.sfikeni.remindmi.database.entity.Reminder;
 import com.example.sfikeni.remindmi.database.dao.ReminderDao;
 import com.example.sfikeni.remindmi.database.entity.ReminderEntity;
-import com.example.sfikeni.remindmi.repository.ReminderRepository;
 
 import java.util.List;
 

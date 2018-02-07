@@ -1,4 +1,4 @@
-package com.example.sfikeni.remindmi.ui.adapter;
+package com.example.sfikeni.remindmi.ui.reminderList;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.sfikeni.remindmi.R;
-import com.example.sfikeni.remindmi.Reminder;
+import com.example.sfikeni.remindmi.database.entity.Reminder;
 import com.example.sfikeni.remindmi.database.entity.ReminderEntity;
 
 import java.util.ArrayList;

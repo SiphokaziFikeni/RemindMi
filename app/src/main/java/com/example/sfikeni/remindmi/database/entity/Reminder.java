@@ -1,4 +1,4 @@
-package com.example.sfikeni.remindmi;
+package com.example.sfikeni.remindmi.database.entity;
 
 /**
  * Created by SFikeni on 2018/02/07.
