@@ -1,19 +1,37 @@
 package com.example.sfikeni.remindmi.ui.activity;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.sfikeni.remindmi.R;
+import com.example.sfikeni.remindmi.Reminder;
+import com.example.sfikeni.remindmi.ui.adapter.ReminderAdapter;
+import com.example.sfikeni.remindmi.database.entity.ReminderEntity;
+import com.example.sfikeni.remindmi.viewModel.ListRemindersViewModel;
 
+import java.util.List;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
+
+    private ListRemindersViewModel listRemindersViewModel;
+    private ReminderAdapter reminderAdapter;
+    @BindView(R.id.reminders_recyclerview)
+    RecyclerView remindersRecyclerView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +41,27 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        reminderAdapter = new ReminderAdapter();
+        setupRemindersRecyclerView();
+
+        setupViewModel();
+    }
+
+    private void setupRemindersRecyclerView() {
+        remindersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        remindersRecyclerView.setAdapter(reminderAdapter);
+    }
+
+    private void setupViewModel() {
+        listRemindersViewModel = ViewModelProviders.of(this).get(ListRemindersViewModel.class);
+
+        listRemindersViewModel.getReminders().observe(this, new Observer<List<? extends Reminder>>() {
+            @Override
+            public void onChanged(@Nullable List<? extends Reminder> reminderEntities) {
+                reminderAdapter.setReminderEntities(reminderEntities);
+            }
+        });
     }
 
     @OnClick(R.id.create_reminder_fab)
@@ -46,5 +85,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
     }
 }
