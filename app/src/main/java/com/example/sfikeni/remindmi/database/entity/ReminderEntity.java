@@ -1,33 +1,39 @@
-package com.example.sfikeni.remindmi.model;
+package com.example.sfikeni.remindmi.database.entity;
 
 import android.support.annotation.Nullable;
+
+import com.example.sfikeni.remindmi.Reminder;
+
+import io.realm.RealmModel;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.RealmClass;
+import io.realm.annotations.Required;
 
 /**
  * Created by SFikeni on 2018/01/31.
  */
 
-public class Reminder {
+@RealmClass
+public class ReminderEntity implements RealmModel, Reminder {
 
+    @PrimaryKey
     private int id;
+    @Required
     private String title;
     private String description;
     private int priorityLevel;
+    @Required
     private String dateString;
+    @Required
     private String timeString;
     @Nullable
     private String status;
 
-    public Reminder(){
-        id = -1;
-        title = "";
-        description = "";
-        priorityLevel = -1;
-        dateString = "";
-        timeString = "";
-        status = "";
-    }
 
-    public Reminder(int id, String title, String description, int priorityLevel, String dateString, String timeString, @Nullable String status){
+    public ReminderEntity(){}
+
+    public ReminderEntity(int id, String title, String description, int priorityLevel, String dateString, String timeString, @Nullable String status){
         this.id = id;
         this.title = title;
         this.description = description;
@@ -37,6 +43,13 @@ public class Reminder {
         this.status = status;
     }
 
+    public ReminderEntity(int id, String title, String description){
+        this.id = id;
+        this.title = title;
+        this.description = description;
+    }
+
+    @Override
     public int getId() {
         return id;
     }
@@ -45,6 +58,7 @@ public class Reminder {
         this.id = id;
     }
 
+    @Override
     public String getTitle() {
         return title;
     }
@@ -53,6 +67,7 @@ public class Reminder {
         this.title = title;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
