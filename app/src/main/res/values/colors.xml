@@ -5,9 +5,13 @@
     <color name="colorAccent">#FF4081</color>
 
     <!--text colors-->
-    <color name="text_white">#ffffff</color>
-    <color name="text_black">#000000</color>
+    <color name="colorWhiteText">#ffffff</color>
+    <color name="colorBlackText">#000000</color>
 
     <!--toolbar colors-->
-    <color name="colorToolbarText">@color/text_white</color>
+    <color name="colorToolbarText">@color/colorWhiteText</color>
+
+    <!--set reminder button colors-->
+    <color name="colorButtonSet">#ffffff</color>
+    <color name="colorButtonSave">@color/colorPrimary</color>
 </resources>

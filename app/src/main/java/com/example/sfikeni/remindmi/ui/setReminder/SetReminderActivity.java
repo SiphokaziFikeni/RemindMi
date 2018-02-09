@@ -3,15 +3,15 @@ package com.example.sfikeni.remindmi.ui.setReminder;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -28,10 +28,10 @@ import butterknife.ButterKnife;
 public class SetReminderActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
 
     @BindView(R.id.reminder_set_date_text)
-    TextView mSetDateEdit;
+    Button mSetDateEdit;
 
     @BindView(R.id.reminder_time_text)
-    TextView mSetTimeText;
+    Button mSetTimeText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

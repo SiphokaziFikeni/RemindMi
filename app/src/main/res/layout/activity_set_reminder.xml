@@ -31,9 +31,9 @@
                 android:id="@+id/reminder_title_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_large"
+                android:hint="@string/title"
                 android:nextFocusDown="@id/reminder_description_text"
-                android:hint="@string/title" />
+                android:textSize="@dimen/text_large" />
         </android.support.design.widget.TextInputLayout>
 
         <TextView
@@ -56,28 +56,18 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:textSize="@dimen/text_large"
             android:ems="10"
             android:inputType="textMultiLine"
+            android:textSize="@dimen/text_large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/reminder_description_label" />
 
-        <TextView
-            android:id="@+id/reminder_set_date_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="12dp"
-            android:text="@string/set_reminder_date"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.023"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/reminder_description_text" />
-
-        <TextView
+        <Button
             android:id="@+id/reminder_set_date_text"
+            style="@style/Widget.AppCompat.Button"
+            android:text="@string/set_reminder_date"
+            android:background="@color/colorButtonSet"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -85,41 +75,29 @@
             android:layout_marginTop="8dp"
             android:onClick="getDate"
             android:padding="6dp"
-            android:textColor="@color/text_black"
+            android:textColor="@color/colorBlackText"
             android:textSize="@dimen/text_large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/reminder_set_date_label"
-            tools:text="From Feb, 23 2018" />
+            app:layout_constraintTop_toBottomOf="@+id/reminder_description_text" />
 
-        <TextView
-            android:id="@+id/reminder_set_time_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="12dp"
-            android:text="@string/set_reminder_time"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.023"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/reminder_set_date_text" />
-
-        <TextView
+        <Button
             android:id="@+id/reminder_time_text"
+            style="@style/Widget.AppCompat.Button"
+            android:text="@string/set_reminder_time"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorButtonSet"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:onClick="getTime"
             android:padding="6dp"
-            android:textColor="@color/text_black"
+            android:textColor="@color/colorBlackText"
             android:textSize="@dimen/text_large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/reminder_set_time_label"
-            tools:text="At 12:30" />
+            app:layout_constraintTop_toBottomOf="@+id/reminder_set_date_text" />
 
         <Spinner
             android:id="@+id/reminder_priority_spinner"
@@ -136,6 +114,8 @@
             android:id="@+id/reminder_set_button"
             android:layout_width="177dp"
             android:layout_height="60dp"
+            android:background="@color/colorButtonSave"
+            android:textColor="@color/colorWhiteText"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
