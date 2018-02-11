@@ -11,6 +11,9 @@ public abstract class Dao <T extends RealmModel> {
 
     private Realm realm;
 
+    Dao(){
+    }
+
     public Dao(Realm realm) {
         this.realm = realm;
     }

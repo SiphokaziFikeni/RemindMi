@@ -3,9 +3,9 @@ package com.example.sfikeni.remindmi.ui.reminderList;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         setupRemindersRecyclerView();
 
         setupViewModel();
+        setReminderAdapterItems();
     }
 
     private void setupRemindersRecyclerView() {
@@ -54,7 +55,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewModel() {
         listRemindersViewModel = ViewModelProviders.of(this).get(ListRemindersViewModel.class);
+    }
 
+    private void setReminderAdapterItems(){
         listRemindersViewModel.getReminders().observe(this, new Observer<List<? extends Reminder>>() {
             @Override
             public void onChanged(@Nullable List<? extends Reminder> reminderEntities) {
@@ -89,6 +92,5 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
     }
 }
