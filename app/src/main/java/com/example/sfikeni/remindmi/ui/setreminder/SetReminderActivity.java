@@ -1,9 +1,11 @@
-package com.example.sfikeni.remindmi.ui.setReminder;
+package com.example.sfikeni.remindmi.ui.setreminder;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,11 +14,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.sfikeni.remindmi.R;
-import com.example.sfikeni.remindmi.ui.reminderList.MainActivity;
+import com.example.sfikeni.remindmi.ui.reminderlist.MainActivity;
+import com.example.sfikeni.remindmi.utils.UtilsHelper;
+import com.example.sfikeni.remindmi.viewmodel.AddReminderViewModel;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -24,14 +30,34 @@ import java.util.GregorianCalendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class SetReminderActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
 
+    @BindView(R.id.reminder_title_edit)
+    TextInputEditText titleEditText;
+
+    @BindView(R.id.reminder_description_text)
+    EditText descriptionEditText;
+
     @BindView(R.id.reminder_set_date_text)
-    Button mSetDateEdit;
+    Button setDateEditText;
 
     @BindView(R.id.reminder_time_text)
-    Button mSetTimeText;
+    Button setTimeText;
+
+    @BindView(R.id.reminder_priority_spinner)
+    Spinner prioritySpinner;
+
+    private AddReminderViewModel addReminderViewModel;
+    String timeString;
+    String dateString;
+
+    @OnClick(R.id.reminder_set_button)
+    void setUserReminder(){
+
+        addReminderViewModel.saveReminder(UtilsHelper.createReminderId(), titleEditText.getText().toString(), descriptionEditText.getText().toString(), "High", dateString, timeString);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +66,8 @@ public class SetReminderActivity extends AppCompatActivity implements DatePicker
         ButterKnife.bind(this);
 
         setupToolbar();
+
+        addReminderViewModel = ViewModelProviders.of(this).get(AddReminderViewModel.class);
     }
 
     private void setupToolbar(){
@@ -83,7 +111,9 @@ public class SetReminderActivity extends AppCompatActivity implements DatePicker
         Calendar calendar = new GregorianCalendar(year, month, dayOfMonth);
         final DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
 
-        mSetDateEdit.setText(String.format(getString(R.string.reminder_date_text), dateFormat.format(calendar.getTime())));
+        dateString = String.valueOf(dateFormat.format(calendar.getTime()));
+
+        setDateEditText.setText(String.format(getString(R.string.reminder_date_text), dateFormat.format(calendar.getTime())));
     }
 
     public void getDate(View view){
@@ -94,11 +124,13 @@ public class SetReminderActivity extends AppCompatActivity implements DatePicker
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute){
 
-        mSetTimeText.setText(String.format(getString(R.string.reminder_time_text), hourOfDay, minute));
+        timeString = String.valueOf(hourOfDay + ":" + minute);
+        setTimeText.setText(String.format(getString(R.string.reminder_time_text), hourOfDay, minute));
     }
 
     public void getTime(View view){
         DialogFragment timePickerFragment = new TimePickerFragment();
         timePickerFragment.show(getSupportFragmentManager(), "TimePicker");
     }
+
 }

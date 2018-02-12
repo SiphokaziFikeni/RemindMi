@@ -15,11 +15,11 @@ import io.realm.annotations.Required;
 public class ReminderEntity implements RealmModel, Reminder {
 
     @PrimaryKey
-    private int id;
+    private String id;
     @Required
     private String title;
     private String description;
-    private int priorityLevel;
+    private String priorityLevel;
     @Required
     private String dateString;
     @Required
@@ -30,7 +30,7 @@ public class ReminderEntity implements RealmModel, Reminder {
 
     public ReminderEntity(){}
 
-    public ReminderEntity(int id, String title, String description, int priorityLevel, String dateString, String timeString, @Nullable String status){
+    public ReminderEntity(String id, String title, String description, String priorityLevel, String dateString, String timeString, @Nullable String status){
         this.id = id;
         this.title = title;
         this.description = description;
@@ -40,18 +40,18 @@ public class ReminderEntity implements RealmModel, Reminder {
         this.status = status;
     }
 
-    public ReminderEntity(int id, String title, String description){
+    public ReminderEntity(String id, String title, String description){
         this.id = id;
         this.title = title;
         this.description = description;
     }
 
     @Override
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -73,11 +73,11 @@ public class ReminderEntity implements RealmModel, Reminder {
         this.description = description;
     }
 
-    public int getPriorityLevel() {
+    public String getPriorityLevel() {
         return priorityLevel;
     }
 
-    public void setPriorityLevel(int priorityLevel) {
+    public void setPriorityLevel(String priorityLevel) {
         this.priorityLevel = priorityLevel;
     }
 

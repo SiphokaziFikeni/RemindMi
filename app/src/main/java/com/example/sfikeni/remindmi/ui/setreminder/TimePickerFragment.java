@@ -1,4 +1,4 @@
-package com.example.sfikeni.remindmi.ui.setReminder;
+package com.example.sfikeni.remindmi.ui.setreminder;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;

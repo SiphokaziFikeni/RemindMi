@@ -1,4 +1,4 @@
-package com.example.sfikeni.remindmi.ui.reminderList;
+package com.example.sfikeni.remindmi.ui.reminderlist;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -15,8 +15,8 @@ import android.widget.Toast;
 
 import com.example.sfikeni.remindmi.R;
 import com.example.sfikeni.remindmi.database.entity.Reminder;
-import com.example.sfikeni.remindmi.ui.setReminder.SetReminderActivity;
-import com.example.sfikeni.remindmi.viewModel.ListRemindersViewModel;
+import com.example.sfikeni.remindmi.ui.setreminder.SetReminderActivity;
+import com.example.sfikeni.remindmi.viewmodel.ListRemindersViewModel;
 
 import java.util.List;
 

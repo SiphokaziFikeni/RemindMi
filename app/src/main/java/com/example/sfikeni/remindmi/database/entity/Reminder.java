@@ -6,7 +6,7 @@ package com.example.sfikeni.remindmi.database.entity;
 
 public interface Reminder {
 
-    int getId();
+    String getId();
     String getTitle();
     String getDescription();
 }

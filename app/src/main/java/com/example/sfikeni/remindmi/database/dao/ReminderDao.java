@@ -2,6 +2,7 @@ package com.example.sfikeni.remindmi.database.dao;
 
 import android.arch.lifecycle.LiveData;
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.example.sfikeni.remindmi.Constants;
 import com.example.sfikeni.remindmi.database.entity.ReminderEntity;
@@ -20,15 +21,6 @@ import io.realm.RealmQuery;
 public class ReminderDao extends Dao<ReminderEntity>{
 
     private Realm realm;
-    private static ReminderDao sInstance;
-
-    public static ReminderDao ReminderDao() {
-        if (sInstance == null){
-            sInstance = new ReminderDao();
-        }
-
-        return sInstance;
-    }
 
     public void getRealmConfiguration(Context context){
         Realm.init(context);
@@ -46,12 +38,45 @@ public class ReminderDao extends Dao<ReminderEntity>{
         return this.realm;
     }
 
+    private RealmQuery<ReminderEntity> where() {
+        return realm.where(ReminderEntity.class);
+    }
+
     public LiveData<List<ReminderEntity>> getAllReminders(){
         return new LiveRealmData <> (where().findAllAsync());
     }
 
-    private RealmQuery<ReminderEntity> where() {
-        return realm.where(ReminderEntity.class);
+    public void saveReminder(final ReminderEntity reminderEntity){
+
+        if (realm == null){
+            getRealm();
+        }
+
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(@NonNull Realm bgRealm) {
+                ReminderEntity reminder = bgRealm.createObject(ReminderEntity.class, reminderEntity.getId());
+
+                reminder.setTitle(reminderEntity.getTitle());
+                reminder.setDescription(reminderEntity.getDescription());
+                reminder.setPriorityLevel(reminderEntity.getPriorityLevel());
+                reminder.setDateString(reminderEntity.getDateString());
+                reminder.setTimeString(reminderEntity.getTimeString());
+                reminder.setStatus(reminderEntity.getStatus());
+
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                closeRealmInstance();
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(@NonNull Throwable error) {
+                closeRealmInstance();
+            }
+        });
+
     }
 
     public void closeRealmInstance(){

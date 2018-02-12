@@ -1,4 +1,4 @@
-package com.example.sfikeni.remindmi.viewModel;
+package com.example.sfikeni.remindmi.viewmodel;
 
 import android.app.Application;
 import android.arch.core.util.Function;
@@ -21,10 +21,6 @@ import javax.annotation.Nonnull;
 
 public class ListRemindersViewModel extends AndroidViewModel {
 
-    //    private Realm realm;
-//    private LiveData<List<? extends Reminder>> reminders;
-//    private ReminderDao reminderDao;
-
     private ReminderRepository reminderRepository;
 
     public ListRemindersViewModel(@Nonnull Application application) {
@@ -33,27 +29,19 @@ public class ListRemindersViewModel extends AndroidViewModel {
         reminderRepository.initializeDao();
         reminderRepository.getRealmConfiguration(application);
         reminderRepository.getRealmInstance();
-
-//        reminders = Transformations.map(reminderDao.getAllReminders(), new Function<List<ReminderEntity>, List<? extends Reminder>>() {
-//            @Override
-//            public List<? extends Reminder> apply(List<ReminderEntity> input) {
-//                return input;
-//            }
-//        });
     }
 
     public LiveData<List<? extends Reminder>> getReminders() {
-//        return reminders;
-        return Transformations.map(reminderRepository.getReminderList(), new Function<List<ReminderEntity>, List<? extends Reminder>>() {
+
+        LiveData<List<? extends Reminder>> realmResult;
+        realmResult = Transformations.map(reminderRepository.getReminderList(), new Function<List<ReminderEntity>, List<? extends Reminder>>() {
             @Override
             public List<? extends Reminder> apply(List<ReminderEntity> input) {
                 return input;
             }
         });
-    }
 
-    public void saveReminder(ReminderEntity reminderEntity) {
-        // TODO: 2018/02/06 save reminderEntity to realm
+        return realmResult;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.example.sfikeni.remindmi.ui.reminderList;
+package com.example.sfikeni.remindmi.ui.reminderlist;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by SFikeni on 2018/01/29.
@@ -24,11 +25,7 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
 
     private List<? extends Reminder> reminderEntities;
 
-    public ReminderAdapter(List<ReminderEntity> reminderEntities) {
-        this.reminderEntities = reminderEntities;
-    }
-
-    public ReminderAdapter() {
+    ReminderAdapter() {
         reminderEntities = new ArrayList<>();
     }
 
@@ -42,8 +39,10 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
     public void onBindViewHolder(ReminderViewHolder holder, int position) {
         ReminderEntity reminderEntity = (ReminderEntity) reminderEntities.get(position);
 
-        holder.titleTextView.setText(reminderEntity.getTitle());
-        //todo add images for priority and status
+        if (reminderEntity != null){
+            holder.titleTextView.setText(reminderEntity.getTitle());
+            //todo add images for priority and status
+        }
     }
 
     @Override
@@ -51,7 +50,7 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
         return reminderEntities == null ? 0 : reminderEntities.size();
     }
 
-    public void setReminderEntities(List<? extends Reminder> reminderEntities){
+    void setReminderEntities(List<? extends Reminder> reminderEntities){
         this.reminderEntities = reminderEntities;
         notifyDataSetChanged();
     }
@@ -69,6 +68,7 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
 
         ReminderViewHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

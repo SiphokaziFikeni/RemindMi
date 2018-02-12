@@ -17,7 +17,7 @@ public interface ReminderRepository {
 
     LiveData<List<ReminderEntity>> getReminderList();
 
-    void saveReminder(ReminderEntity reminderEntity);
+    void saveReminder(String id, String title, String description, String priority, String dateString, String timeString);
 
     void getRealmConfiguration(Context context);
 

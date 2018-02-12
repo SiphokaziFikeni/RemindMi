@@ -31,8 +31,11 @@ public class ReminderRepositoryImpl implements ReminderRepository {
     }
 
     @Override
-    public void saveReminder(ReminderEntity reminderEntity) {
+    public void saveReminder(String id, String title, String description, String priority, String dateString, String timeString) {
 
+        ReminderEntity reminder = new ReminderEntity(id, title, description, priority, dateString, timeString, null);
+
+        reminderDao.saveReminder(reminder);
     }
 
     @Override
