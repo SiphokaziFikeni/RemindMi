@@ -12,6 +12,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -32,7 +34,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SetReminderActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
+public class SetReminderActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener
+                            , AdapterView.OnItemSelectedListener {
 
     @BindView(R.id.reminder_title_edit)
     TextInputEditText titleEditText;
@@ -52,11 +55,13 @@ public class SetReminderActivity extends AppCompatActivity implements DatePicker
     private AddReminderViewModel addReminderViewModel;
     String timeString;
     String dateString;
+    String priority;
 
     @OnClick(R.id.reminder_set_button)
     void setUserReminder(){
 
-        addReminderViewModel.saveReminder(UtilsHelper.createReminderId(), titleEditText.getText().toString(), descriptionEditText.getText().toString(), "High", dateString, timeString);
+        addReminderViewModel.saveReminder(UtilsHelper.createReminderId(), titleEditText.getText().toString(), descriptionEditText.getText().toString(), priority, dateString, timeString);
+        finish();
     }
 
     @Override
@@ -66,6 +71,7 @@ public class SetReminderActivity extends AppCompatActivity implements DatePicker
         ButterKnife.bind(this);
 
         setupToolbar();
+        setupPrioritySpinner();
 
         addReminderViewModel = ViewModelProviders.of(this).get(AddReminderViewModel.class);
     }
@@ -80,6 +86,14 @@ public class SetReminderActivity extends AppCompatActivity implements DatePicker
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+    }
+
+    private void setupPrioritySpinner(){
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.reminder_priority_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(R.layout.spinner_item_layout);
+        prioritySpinner.setAdapter(adapter);
+        prioritySpinner.setOnItemSelectedListener(this);
     }
 
     @Override
@@ -133,4 +147,13 @@ public class SetReminderActivity extends AppCompatActivity implements DatePicker
         timePickerFragment.show(getSupportFragmentManager(), "TimePicker");
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        priority = parent.getItemAtPosition(position).toString();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        priority = parent.getItemAtPosition(0).toString();
+    }
 }

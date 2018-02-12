@@ -3,6 +3,7 @@ package com.example.sfikeni.remindmi.database.dao;
 import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.example.sfikeni.remindmi.Constants;
 import com.example.sfikeni.remindmi.database.entity.ReminderEntity;
@@ -68,12 +69,12 @@ public class ReminderDao extends Dao<ReminderEntity>{
         }, new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
-                closeRealmInstance();
+                Log.d("Realm write", "successful");
             }
         }, new Realm.Transaction.OnError() {
             @Override
             public void onError(@NonNull Throwable error) {
-                closeRealmInstance();
+                Log.d("Realm write", "failed");
             }
         });
 
