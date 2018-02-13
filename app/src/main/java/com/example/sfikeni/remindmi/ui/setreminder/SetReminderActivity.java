@@ -3,10 +3,12 @@ package com.example.sfikeni.remindmi.ui.setreminder;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -19,7 +21,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.example.sfikeni.remindmi.R;
 import com.example.sfikeni.remindmi.ui.reminderlist.MainActivity;
@@ -106,18 +107,35 @@ public class SetReminderActivity extends AppCompatActivity implements DatePicker
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
+                goBackToMainActivity();
                 return true;
+
             case R.id.action_close:
-                Toast.makeText(this, "Cancel reminder", Toast.LENGTH_SHORT).show();
+                AlertDialog dialog = new AlertDialog.Builder(this)
+                        .setTitle(getString(R.string.dialog_title))
+                        .setMessage(getString(R.string.dialog_message))
+                        .setPositiveButton(getString(R.string.dialog_positive_text), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                goBackToMainActivity();
+                            }
+                        })
+                        .setNegativeButton(getString(R.string.dialog_negative_text), null)
+                        .create();
+
+                dialog.show();
                 return true;
 
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void goBackToMainActivity(){
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 
     @Override
