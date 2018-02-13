@@ -3,7 +3,8 @@
     package="com.example.sfikeni.remindmi">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGEr"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:name=".app.RemindMiApplication"
@@ -21,8 +22,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.splash.SplashActivity"></activity>
-        <activity android:name=".ui.setreminder.SetReminderActivity"></activity>
+        <activity android:name=".ui.splash.SplashActivity"/>
+        <activity android:name=".ui.setreminder.SetReminderActivity"/>
     </application>
 
 </manifest>
