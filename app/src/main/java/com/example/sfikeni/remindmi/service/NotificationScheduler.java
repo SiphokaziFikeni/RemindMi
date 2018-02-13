@@ -27,7 +27,6 @@ import static android.content.Context.ALARM_SERVICE;
 public class NotificationScheduler {
 
     public static final int DAILY_REMINDER_REQUEST_CODE = 100;
-    public static final String TAG = "NotificationScheduler";
 
     public static void setReminder(Context context, Class<?> cls, int hour, int min) {
 
@@ -38,9 +37,6 @@ public class NotificationScheduler {
         setcalendar.set(Calendar.HOUR_OF_DAY, hour);
         setcalendar.set(Calendar.MINUTE, min);
         setcalendar.set(Calendar.SECOND, 0);
-
-        // cancel already scheduled reminders
-        cancelReminder(context, cls, requestCode);
 
         if (setcalendar.before(calendar))
             setcalendar.add(Calendar.DATE, 1);
@@ -63,15 +59,16 @@ public class NotificationScheduler {
     public static void cancelReminder(Context context, Class<?> cls, int requestCode) {
         // Disable a receiver
         ComponentName receiver = new ComponentName(context, cls);
-        PackageManager pm = context.getPackageManager();
+        PackageManager packageManager = context.getPackageManager();
 
-        pm.setComponentEnabledSetting(receiver, PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                PackageManager.DONT_KILL_APP);
+        packageManager.setComponentEnabledSetting(receiver, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
 
         Intent intent = new Intent(context, cls);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
-        am.cancel(pendingIntent);
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+
+        if (alarmManager != null)
+            alarmManager.cancel(pendingIntent);
         pendingIntent.cancel();
     }
 
@@ -98,8 +95,10 @@ public class NotificationScheduler {
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        if (notificationManager != null)
-            notificationManager.notify(DAILY_REMINDER_REQUEST_CODE, notification);
+        if (notificationManager != null) {
+            int notificationId = PreferencesHelper.getNotificationId(context);
+            notificationManager.notify(notificationId, notification);
+        }
     }
 
 }

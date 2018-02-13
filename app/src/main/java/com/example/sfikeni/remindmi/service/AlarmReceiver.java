@@ -13,8 +13,6 @@ import com.example.sfikeni.remindmi.utils.PreferencesHelper;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
-    static String TAG = "AlarmReceiver";
-
     @Override
     public void onReceive(Context context, Intent intent) {
 
