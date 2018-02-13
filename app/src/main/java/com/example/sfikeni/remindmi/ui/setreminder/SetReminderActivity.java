@@ -23,7 +23,10 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 
 import com.example.sfikeni.remindmi.R;
+import com.example.sfikeni.remindmi.service.AlarmReceiver;
+import com.example.sfikeni.remindmi.service.NotificationScheduler;
 import com.example.sfikeni.remindmi.ui.reminderlist.MainActivity;
+import com.example.sfikeni.remindmi.utils.PreferencesHelper;
 import com.example.sfikeni.remindmi.utils.UtilsHelper;
 import com.example.sfikeni.remindmi.viewmodel.AddReminderViewModel;
 
@@ -36,7 +39,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class SetReminderActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener
-                            , AdapterView.OnItemSelectedListener {
+        , AdapterView.OnItemSelectedListener {
 
     @BindView(R.id.reminder_title_edit)
     TextInputEditText titleEditText;
@@ -57,10 +60,12 @@ public class SetReminderActivity extends AppCompatActivity implements DatePicker
     String timeString;
     String dateString;
     String priority;
+    PreferencesHelper preferencesHelper;
 
     @OnClick(R.id.reminder_set_button)
-    void setUserReminder(){
+    void setUserReminder() {
 
+        setReminderTime();
         addReminderViewModel.saveReminder(UtilsHelper.createReminderId(), titleEditText.getText().toString(), descriptionEditText.getText().toString(), priority, dateString, timeString);
         finish();
     }
@@ -71,17 +76,18 @@ public class SetReminderActivity extends AppCompatActivity implements DatePicker
         setContentView(R.layout.activity_set_reminder);
         ButterKnife.bind(this);
 
+        preferencesHelper = new PreferencesHelper(getApplicationContext());
         setupToolbar();
         setupPrioritySpinner();
 
         addReminderViewModel = ViewModelProviders.of(this).get(AddReminderViewModel.class);
     }
 
-    private void setupToolbar(){
+    private void setupToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        if (getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24px);
             toolbar.setContentInsetStartWithNavigation(0);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -89,7 +95,7 @@ public class SetReminderActivity extends AppCompatActivity implements DatePicker
         }
     }
 
-    private void setupPrioritySpinner(){
+    private void setupPrioritySpinner() {
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.reminder_priority_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(R.layout.spinner_item_layout);
@@ -131,7 +137,7 @@ public class SetReminderActivity extends AppCompatActivity implements DatePicker
         }
     }
 
-    private void goBackToMainActivity(){
+    private void goBackToMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
@@ -148,19 +154,30 @@ public class SetReminderActivity extends AppCompatActivity implements DatePicker
         setDateEditText.setText(String.format(getString(R.string.reminder_date_text), dateFormat.format(calendar.getTime())));
     }
 
-    public void getDate(View view){
+    public void getDate(View view) {
         DatePickerFragment datePickerFragment = new DatePickerFragment();
         datePickerFragment.show(getSupportFragmentManager(), "DatePicker");
     }
 
     @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute){
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
         timeString = String.valueOf(hourOfDay + ":" + minute);
         setTimeText.setText(String.format(getString(R.string.reminder_time_text), hourOfDay, minute));
+        saveTimeToPreferences(hourOfDay, minute);
     }
 
-    public void getTime(View view){
+    private void setReminderTime() {
+        NotificationScheduler.setReminder(SetReminderActivity.this, AlarmReceiver.class,
+                preferencesHelper.getHour(), preferencesHelper.getMinute());
+    }
+
+    private void saveTimeToPreferences(int hourOfDay, int minute) {
+        preferencesHelper.setHour(hourOfDay);
+        preferencesHelper.setMinute(minute);
+    }
+
+    public void getTime(View view) {
         DialogFragment timePickerFragment = new TimePickerFragment();
         timePickerFragment.show(getSupportFragmentManager(), "TimePicker");
     }
