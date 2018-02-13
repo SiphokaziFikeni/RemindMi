@@ -41,7 +41,19 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
 
         if (reminderEntity != null){
             holder.titleTextView.setText(reminderEntity.getTitle());
-            //todo add images for priority and status
+            holder.priorityImageView.setBackgroundResource(getPriorityDrawable(reminderEntity.getPriorityLevel()));
+        }
+    }
+
+    private int getPriorityDrawable(String priority){
+        if (priority.equalsIgnoreCase("high")){
+            return R.drawable.ic_priority_high_black_24px;
+
+        } else if (priority.equalsIgnoreCase("low")){
+            return R.drawable.ic_low_priority_black_24px;
+
+        } else {
+            return 0;
         }
     }
 
