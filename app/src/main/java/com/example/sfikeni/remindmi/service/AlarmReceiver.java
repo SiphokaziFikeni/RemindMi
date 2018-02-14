@@ -28,8 +28,6 @@ public class AlarmReceiver extends BroadcastReceiver {
             }
         }
 
-        //Trigger the notification todo class update to detail view
-
         NotificationScheduler.showNotification(context, ReminderDetailsActivity.class, intent.getStringExtra(Constants.REMINDER_ID_TAG), intent.getStringExtra(Constants.REMINDER_TITLE_TAG), intent.getStringExtra(Constants.REMINDER_DESCRIPTION_TAG));
     }
 

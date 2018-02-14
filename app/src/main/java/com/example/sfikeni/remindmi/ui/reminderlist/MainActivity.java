@@ -1,5 +1,6 @@
 package com.example.sfikeni.remindmi.ui.reminderlist;
 
+import android.Manifest;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -19,6 +21,7 @@ import com.example.sfikeni.remindmi.database.entity.Reminder;
 import com.example.sfikeni.remindmi.ui.reminderdetails.ReminderDetailsActivity;
 import com.example.sfikeni.remindmi.ui.setreminder.SetReminderActivity;
 import com.example.sfikeni.remindmi.viewmodel.ListRemindersViewModel;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.List;
 
@@ -43,6 +46,19 @@ public class MainActivity extends AppCompatActivity implements ReminderAdapter.O
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        RxPermissions rxPermissions = new RxPermissions(this);
+        rxPermissions.requestEachCombined(Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .subscribe(permission -> {
+                    if (permission.granted) {
+                        Log.d("Permission granted", "permission granted " + permission.name);
+                    } else if (permission.shouldShowRequestPermissionRationale) {
+                        Log.d("Perm RequestRationale", "shouldShowRequestPermissionRationale " + permission.name);
+                    } else {
+                        Log.d("Permission declined", "permission declined with never ask again " + permission.name);
+                    }
+                });
+
         reminderAdapter = new ReminderAdapter();
         reminderAdapter.setAdapterClickListener(this);
         setupRemindersRecyclerView();
@@ -60,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements ReminderAdapter.O
         listRemindersViewModel = ViewModelProviders.of(this).get(ListRemindersViewModel.class);
     }
 
-    private void setReminderAdapterItems(){
+    private void setReminderAdapterItems() {
         listRemindersViewModel.getReminders().observe(this, new Observer<List<? extends Reminder>>() {
             @Override
             public void onChanged(@Nullable List<? extends Reminder> reminderEntities) {
@@ -70,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements ReminderAdapter.O
     }
 
     @OnClick(R.id.create_reminder_fab)
-    public void addNewReminder(){
+    public void addNewReminder() {
         Intent intent = new Intent(this, SetReminderActivity.class);
         startActivity(intent);
     }
