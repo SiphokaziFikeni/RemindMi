@@ -80,6 +80,10 @@ public class ReminderDao extends Dao<ReminderEntity>{
 
     }
 
+    public ReminderEntity getReminderById(String id){
+        return where().equalTo("id", id).findFirst();
+    }
+
     public void closeRealmInstance(){
         if (!realm.isClosed()){
             realm.close();

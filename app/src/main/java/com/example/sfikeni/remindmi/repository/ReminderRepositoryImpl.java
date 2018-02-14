@@ -39,6 +39,11 @@ public class ReminderRepositoryImpl implements ReminderRepository {
     }
 
     @Override
+    public ReminderEntity getReminderById(String reminderId) {
+        return reminderDao.getReminderById(reminderId);
+    }
+
+    @Override
     public void getRealmConfiguration(@Nonnull Context context) {
         reminderDao.getRealmConfiguration(context);
     }

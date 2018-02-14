@@ -19,6 +19,8 @@ public interface ReminderRepository {
 
     void saveReminder(String id, String title, String description, String priority, String dateString, String timeString);
 
+    ReminderEntity getReminderById(String reminderId);
+
     void getRealmConfiguration(Context context);
 
     void getRealmInstance();
