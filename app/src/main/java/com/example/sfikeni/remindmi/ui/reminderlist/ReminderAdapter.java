@@ -24,6 +24,7 @@ import butterknife.ButterKnife;
 public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ReminderViewHolder> {
 
     private List<? extends Reminder> reminderEntities;
+    private OnAdapterClickListener clickListener;
 
     ReminderAdapter() {
         reminderEntities = new ArrayList<>();
@@ -36,12 +37,19 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
     }
 
     @Override
-    public void onBindViewHolder(ReminderViewHolder holder, int position) {
-        ReminderEntity reminderEntity = (ReminderEntity) reminderEntities.get(position);
+    public void onBindViewHolder(final ReminderViewHolder holder, int position) {
+        final ReminderEntity reminderEntity = (ReminderEntity) reminderEntities.get(position);
 
         if (reminderEntity != null){
             holder.titleTextView.setText(reminderEntity.getTitle());
             holder.priorityImageView.setBackgroundResource(getPriorityDrawable(reminderEntity.getPriorityLevel()));
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickListener.onReminderItemClicked(reminderEntity.getId());
+                }
+            });
         }
     }
 
@@ -82,5 +90,18 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public void setAdapterClickListener(OnAdapterClickListener adapterClickListener){
+        if (adapterClickListener == null){
+            throw new IllegalArgumentException("Adapter listener cannot be null");
+
+        } else {
+            this.clickListener = adapterClickListener;
+        }
+    }
+
+    public interface OnAdapterClickListener{
+        void onReminderItemClicked(String reminderId);
     }
 }

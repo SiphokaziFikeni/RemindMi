@@ -13,8 +13,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.sfikeni.remindmi.Constants;
 import com.example.sfikeni.remindmi.R;
 import com.example.sfikeni.remindmi.database.entity.Reminder;
+import com.example.sfikeni.remindmi.ui.reminderdetails.ReminderDetailsActivity;
 import com.example.sfikeni.remindmi.ui.setreminder.SetReminderActivity;
 import com.example.sfikeni.remindmi.viewmodel.ListRemindersViewModel;
 
@@ -24,7 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ReminderAdapter.OnAdapterClickListener {
 
     private ListRemindersViewModel listRemindersViewModel;
     private ReminderAdapter reminderAdapter;
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         reminderAdapter = new ReminderAdapter();
+        reminderAdapter.setAdapterClickListener(this);
         setupRemindersRecyclerView();
 
         setupViewModel();
@@ -92,5 +95,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void onReminderItemClicked(String reminderId) {
+        Intent intent = new Intent(this, ReminderDetailsActivity.class);
+        intent.putExtra(Constants.REMINDER_ID_TAG, reminderId);
+        startActivity(intent);
     }
 }
