@@ -65,8 +65,12 @@ public class SetReminderActivity extends AppCompatActivity implements DatePicker
     @OnClick(R.id.reminder_set_button)
     void setUserReminder() {
 
-        setReminderTime();
-        addReminderViewModel.saveReminder(UtilsHelper.createReminderId(), titleEditText.getText().toString(), descriptionEditText.getText().toString(), priority, dateString, timeString);
+        String title = titleEditText.getText().toString();
+        String description = descriptionEditText.getText().toString();
+        String reminderId = UtilsHelper.createReminderId();
+
+        setReminderTime(reminderId, title, description);
+        addReminderViewModel.saveReminder(reminderId, title, description, priority, dateString, timeString);
         finish();
     }
 
@@ -90,10 +94,12 @@ public class SetReminderActivity extends AppCompatActivity implements DatePicker
         if (getSupportActionBar() != null) {
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24px);
             toolbar.setContentInsetStartWithNavigation(0);
+            getSupportActionBar().setTitle(getString(R.string.set_reminder_text));
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
     }
+
 
     private void setupPrioritySpinner() {
 
@@ -167,8 +173,8 @@ public class SetReminderActivity extends AppCompatActivity implements DatePicker
         saveTimeToPreferences(hourOfDay, minute);
     }
 
-    private void setReminderTime() {
-        NotificationScheduler.setReminder(SetReminderActivity.this, AlarmReceiver.class,
+    private void setReminderTime(String reminderId, String reminderTitle, String reminderDescription) {
+        NotificationScheduler.setReminder(SetReminderActivity.this, AlarmReceiver.class, reminderId, reminderTitle, reminderDescription,
                 preferencesHelper.getHour(), preferencesHelper.getMinute());
     }
 

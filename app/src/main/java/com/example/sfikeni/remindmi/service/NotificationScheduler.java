@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 
+import com.example.sfikeni.remindmi.Constants;
 import com.example.sfikeni.remindmi.R;
 import com.example.sfikeni.remindmi.utils.PreferencesHelper;
 
@@ -28,7 +29,7 @@ public class NotificationScheduler {
 
     public static final int DAILY_REMINDER_REQUEST_CODE = 100;
 
-    public static void setReminder(Context context, Class<?> cls, int hour, int min) {
+    public static void setReminder(Context context, Class<?> cls, String reminderId, String reminderTitle, String reminderDescription, int hour, int min) {
 
         Calendar calendar = Calendar.getInstance();
         Calendar setcalendar = Calendar.getInstance();
@@ -48,6 +49,10 @@ public class NotificationScheduler {
         packageManager.setComponentEnabledSetting(receiver, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
 
         Intent intent = new Intent(context, cls);
+        intent.putExtra(Constants.REMINDER_ID_TAG, reminderId);
+        intent.putExtra(Constants.REMINDER_TITLE_TAG, reminderTitle);
+        intent.putExtra(Constants.REMINDER_DESCRIPTION_TAG, reminderDescription);
+
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
@@ -72,10 +77,11 @@ public class NotificationScheduler {
         pendingIntent.cancel();
     }
 
-    public static void showNotification(Context context, Class<?> cls, String title, String content) {
+    public static void showNotification(Context context, Class<?> cls, String reminderId, String title, String description) {
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         Intent notificationIntent = new Intent(context, cls);
+        notificationIntent.putExtra(Constants.REMINDER_ID_TAG, reminderId);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
@@ -87,7 +93,7 @@ public class NotificationScheduler {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
 
         Notification notification = builder.setContentTitle(title)
-                .setContentText(content)
+                .setContentText(description)
                 .setAutoCancel(true)
                 .setSound(alarmSound)
                 .setSmallIcon(R.mipmap.ic_launcher_round)
