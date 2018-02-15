@@ -14,4 +14,5 @@
 
     <!--margin-->
     <dimen name="margin_small">4dp</dimen>
+    <dimen name="margin_normal">8dp</dimen>
 </resources>
