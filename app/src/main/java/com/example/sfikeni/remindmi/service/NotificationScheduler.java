@@ -31,7 +31,7 @@ public class NotificationScheduler {
 
     public static void setReminder(Context context, Class<?> cls, String reminderId, String reminderTitle, String reminderDescription, int hour, int min) {
 
-        Calendar calendar = Calendar.getInstance();
+        Calendar now = Calendar.getInstance();
         Calendar setcalendar = Calendar.getInstance();
         int requestCode = PreferencesHelper.getAlarmId(context);
 
@@ -39,7 +39,7 @@ public class NotificationScheduler {
         setcalendar.set(Calendar.MINUTE, min);
         setcalendar.set(Calendar.SECOND, 0);
 
-        if (setcalendar.before(calendar))
+        if (setcalendar.before(now))
             setcalendar.add(Calendar.DATE, 1);
 
         // Enable a receiver
@@ -77,7 +77,7 @@ public class NotificationScheduler {
         pendingIntent.cancel();
     }
 
-    public static void showNotification(Context context, Class<?> cls, String reminderId, String title, String description) {
+    static void showNotification(Context context, Class<?> cls, String reminderId, String title, String description) {
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         Intent notificationIntent = new Intent(context, cls);
