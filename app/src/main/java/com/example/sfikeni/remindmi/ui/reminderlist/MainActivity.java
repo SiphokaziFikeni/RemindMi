@@ -1,11 +1,9 @@
 package com.example.sfikeni.remindmi.ui.reminderlist;
 
 import android.Manifest;
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,13 +15,10 @@ import android.widget.Toast;
 
 import com.example.sfikeni.remindmi.Constants;
 import com.example.sfikeni.remindmi.R;
-import com.example.sfikeni.remindmi.database.entity.Reminder;
 import com.example.sfikeni.remindmi.ui.reminderdetails.ReminderDetailsActivity;
 import com.example.sfikeni.remindmi.ui.setreminder.SetReminderActivity;
 import com.example.sfikeni.remindmi.viewmodel.ListRemindersViewModel;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,7 +63,10 @@ public class MainActivity extends AppCompatActivity implements ReminderAdapter.O
     }
 
     private void setupRemindersRecyclerView() {
-        remindersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
+        remindersRecyclerView.setLayoutManager(layoutManager);
         remindersRecyclerView.setAdapter(reminderAdapter);
     }
 
@@ -77,12 +75,7 @@ public class MainActivity extends AppCompatActivity implements ReminderAdapter.O
     }
 
     private void setReminderAdapterItems() {
-        listRemindersViewModel.getReminders().observe(this, new Observer<List<? extends Reminder>>() {
-            @Override
-            public void onChanged(@Nullable List<? extends Reminder> reminderEntities) {
-                reminderAdapter.setReminderEntities(reminderEntities);
-            }
-        });
+        listRemindersViewModel.getReminders().observe(this, reminderEntities -> reminderAdapter.setReminderEntities(reminderEntities));
     }
 
     @OnClick(R.id.create_reminder_fab)
