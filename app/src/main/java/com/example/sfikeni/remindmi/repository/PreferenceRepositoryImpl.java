@@ -69,4 +69,9 @@ public class PreferenceRepositoryImpl implements PreferenceRepository {
         return sharedPreferenceProvider.removePreferenceValueWithKey(key);
     }
 
+    @Override
+    public boolean clearSharedPreferences() {
+        return sharedPreferenceProvider.clearPreferences();
+    }
+
 }

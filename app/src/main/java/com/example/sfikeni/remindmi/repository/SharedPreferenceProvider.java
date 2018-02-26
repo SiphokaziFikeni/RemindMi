@@ -54,4 +54,8 @@ public class SharedPreferenceProvider {
         prefsEditor.remove(key);
         return prefsEditor.commit();
     }
+
+    public boolean clearPreferences(){
+       return sharedPreferences.edit().clear().commit();
+    }
 }

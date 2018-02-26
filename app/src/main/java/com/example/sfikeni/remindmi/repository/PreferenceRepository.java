@@ -28,4 +28,6 @@ public interface PreferenceRepository {
     int getNotificationId();
 
     boolean resetPreferenceKey(String key);
+
+    boolean clearSharedPreferences();
 }
