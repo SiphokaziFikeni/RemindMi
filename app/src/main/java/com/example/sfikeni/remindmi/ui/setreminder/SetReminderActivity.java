@@ -11,6 +11,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,10 +24,11 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 
 import com.example.sfikeni.remindmi.R;
+import com.example.sfikeni.remindmi.repository.PreferenceRepositoryImpl;
+import com.example.sfikeni.remindmi.repository.SharedPreferenceProvider;
 import com.example.sfikeni.remindmi.service.AlarmReceiver;
 import com.example.sfikeni.remindmi.service.NotificationScheduler;
 import com.example.sfikeni.remindmi.ui.reminderlist.MainActivity;
-import com.example.sfikeni.remindmi.utils.PreferencesHelper;
 import com.example.sfikeni.remindmi.utils.UtilsHelper;
 import com.example.sfikeni.remindmi.viewmodel.AddReminderViewModel;
 
@@ -60,7 +62,8 @@ public class SetReminderActivity extends AppCompatActivity implements DatePicker
     String timeString;
     String dateString;
     String priority;
-    PreferencesHelper preferencesHelper;
+    PreferenceRepositoryImpl preferenceRepository;
+    NotificationScheduler notificationScheduler;
 
     @OnClick(R.id.reminder_set_button)
     void setUserReminder() {
@@ -80,9 +83,10 @@ public class SetReminderActivity extends AppCompatActivity implements DatePicker
         setContentView(R.layout.activity_set_reminder);
         ButterKnife.bind(this);
 
-        preferencesHelper = new PreferencesHelper(getApplicationContext());
         setupToolbar();
         setupPrioritySpinner();
+        preferenceRepository = new PreferenceRepositoryImpl(new SharedPreferenceProvider(this));
+        notificationScheduler = new NotificationScheduler(preferenceRepository);
 
         addReminderViewModel = ViewModelProviders.of(this).get(AddReminderViewModel.class);
     }
@@ -174,13 +178,15 @@ public class SetReminderActivity extends AppCompatActivity implements DatePicker
     }
 
     private void setReminderTime(String reminderId, String reminderTitle, String reminderDescription) {
-        NotificationScheduler.setReminder(SetReminderActivity.this, AlarmReceiver.class, reminderId, reminderTitle, reminderDescription,
-                preferencesHelper.getHour(), preferencesHelper.getMinute());
+
+        notificationScheduler.setReminder(SetReminderActivity.this, AlarmReceiver.class, reminderId, reminderTitle, reminderDescription,
+                preferenceRepository.getReminderHour(), preferenceRepository.getReminderMinute());
     }
 
     private void saveTimeToPreferences(int hourOfDay, int minute) {
-        preferencesHelper.setHour(hourOfDay);
-        preferencesHelper.setMinute(minute);
+        boolean isHourSaved = preferenceRepository.setReminderHour(hourOfDay);
+        Log.d("Is Hour saved", String.valueOf(isHourSaved));
+        preferenceRepository.setReminderMinute(minute);
     }
 
     public void getTime(View view) {

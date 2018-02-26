@@ -15,7 +15,7 @@ import android.support.v4.app.TaskStackBuilder;
 
 import com.example.sfikeni.remindmi.Constants;
 import com.example.sfikeni.remindmi.R;
-import com.example.sfikeni.remindmi.utils.PreferencesHelper;
+import com.example.sfikeni.remindmi.repository.PreferenceRepositoryImpl;
 
 import java.util.Calendar;
 
@@ -28,12 +28,20 @@ import static android.content.Context.ALARM_SERVICE;
 public class NotificationScheduler {
 
     public static final int DAILY_REMINDER_REQUEST_CODE = 100;
+    PreferenceRepositoryImpl preferenceRepository;
 
-    public static void setReminder(Context context, Class<?> cls, String reminderId, String reminderTitle, String reminderDescription, int hour, int min) {
+    public NotificationScheduler() {
+    }
+
+    public NotificationScheduler(PreferenceRepositoryImpl preferenceRepository) {
+        this.preferenceRepository = preferenceRepository;
+    }
+
+    public void setReminder(Context context, Class<?> cls, String reminderId, String reminderTitle, String reminderDescription, int hour, int min) {
 
         Calendar now = Calendar.getInstance();
         Calendar setcalendar = Calendar.getInstance();
-        int requestCode = PreferencesHelper.getAlarmId(context);
+        int requestCode = preferenceRepository.getAlarmId();
 
         setcalendar.set(Calendar.HOUR_OF_DAY, hour);
         setcalendar.set(Calendar.MINUTE, min);
@@ -77,7 +85,7 @@ public class NotificationScheduler {
         pendingIntent.cancel();
     }
 
-    static void showNotification(Context context, Class<?> cls, String reminderId, String title, String description) {
+    void showNotification(Context context, Class<?> cls, String reminderId, String title, String description) {
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         Intent notificationIntent = new Intent(context, cls);
@@ -102,7 +110,7 @@ public class NotificationScheduler {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (notificationManager != null) {
-            int notificationId = PreferencesHelper.getNotificationId(context);
+            int notificationId = preferenceRepository.getNotificationId();
             notificationManager.notify(notificationId, notification);
         }
     }
