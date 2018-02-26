@@ -54,12 +54,73 @@ public class PreferenceRepositoryTest {
     @Test
     public void getReminderMinute() {
         when(sharedPreferenceProvider.getInteger("reminder_minute")).thenReturn(12);
-        int minute = sharedPreferenceProvider.getInteger("reminder_minute");
+        int minute = preferenceRepositoryImpl.getReminderMinute();
 
         Assert.assertEquals(12, minute);
         verify(sharedPreferenceProvider).getInteger("reminder_minute");
     }
 
+    @Test
+    public void setReminderStatusTrue() {
+        preferenceRepositoryImpl.setReminderStatus(true);
+        verify(sharedPreferenceProvider).writeBoolean("reminder_status", true);
+    }
+
+    @Test
+    public void setReminderStatusFalse() {
+        preferenceRepositoryImpl.setReminderStatus(false);
+        verify(sharedPreferenceProvider).writeBoolean("reminder_status", false);
+    }
+
+    @Test
+    public void getReminderStatusFalse() {
+        when(sharedPreferenceProvider.getBoolean("reminder_status")).thenReturn(false);
+        boolean status = preferenceRepositoryImpl.getReminderStatus();
+
+        Assert.assertEquals(false, status);
+        verify(sharedPreferenceProvider).getBoolean("reminder_status");
+    }
+
+    @Test
+    public void getReminderStatusTrue() {
+        when(sharedPreferenceProvider.getBoolean("reminder_status")).thenReturn(true);
+        boolean status = preferenceRepositoryImpl.getReminderStatus();
+
+        Assert.assertEquals(true, status);
+        verify(sharedPreferenceProvider).getBoolean("reminder_status");
+    }
+
+    @Test
+    public void setAlarmId() {
+        int alarmId = 2;
+        preferenceRepositoryImpl.setAlarmId(alarmId);
+        verify(sharedPreferenceProvider).writeInteger("alarm_id", alarmId);
+    }
+
+    @Test
+    public void getAlarmId() {
+        when(sharedPreferenceProvider.getInteger("alarm_id")).thenReturn(2);
+        int alarmId = preferenceRepositoryImpl.getAlarmId();
+
+        Assert.assertEquals(2, alarmId);
+        verify(sharedPreferenceProvider).getInteger("alarm_id");
+    }
+
+    @Test
+    public void setNotificationId() {
+        int notificationId = 23;
+        preferenceRepositoryImpl.setNotificationId(notificationId);
+        verify(sharedPreferenceProvider).writeInteger("notification_id", notificationId);
+    }
+
+    @Test
+    public void getNotificationId() {
+        when(sharedPreferenceProvider.getInteger("notification_id")).thenReturn(23);
+        int notificationId = preferenceRepositoryImpl.getNotificationId();
+
+        Assert.assertEquals(23, notificationId);
+        verify(sharedPreferenceProvider).getInteger("notification_id");
+    }
 
     @After
     public void tearDown() {
@@ -69,6 +130,15 @@ public class PreferenceRepositoryTest {
 
         preferenceRepositoryImpl.resetPreferenceKey("reminder_minute");
         verify(sharedPreferenceProvider).removePreferenceValueWithKey("reminder_minute");
+
+        preferenceRepositoryImpl.resetPreferenceKey("reminder_status");
+        verify(sharedPreferenceProvider).removePreferenceValueWithKey("reminder_status");
+
+        preferenceRepositoryImpl.resetPreferenceKey("alarm_id");
+        verify(sharedPreferenceProvider).removePreferenceValueWithKey("alarm_id");
+
+        preferenceRepositoryImpl.resetPreferenceKey("notification_id");
+        verify(sharedPreferenceProvider).removePreferenceValueWithKey("notification_id");
 
         preferenceRepositoryImpl.clearSharedPreferences();
         verify(sharedPreferenceProvider).clearPreferences();
